@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/title_bar_container_ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#EEF2F3"
+    android:orientation="vertical"
+    tools:ignore="RtlHardcoded,ContentDescription,Deprecated,RelativeOverlap">
+
+    <View
+        android:id="@+id/pop_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#ff666666"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/pop_status_bar_white"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#EEF2F3"
+        android:visibility="gone" />
+
+
+    <RelativeLayout
+        android:id="@+id/abc"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#EEF2F3">
+
+        <RelativeLayout
+            android:id="@+id/regoback"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:clickable="true"
+            android:gravity="center"
+            android:minWidth="48dp">
+
+            <ImageView
+                android:id="@+id/title_GoBackButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerInParent="true"
+                android:padding="15dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/title_RightLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:minWidth="48dp"
+            android:visibility="visible">
+
+
+            <TextView
+                android:id="@+id/title_RightTextView"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_height="fill_parent"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_vertical"
+                android:gravity="right|center_vertical"
+                android:minWidth="48dp"
+                android:textSize="18sp"
+                android:text="编辑"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/title_RightImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_vertical"
+                android:minWidth="48dp"
+                android:padding="15dp"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/title_lessRightLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/title_RightLayout"
+            android:gravity="center"
+            android:minWidth="48dp"
+            android:visibility="gone">
+
+
+            <TextView
+                android:id="@+id/title_lessRightTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:minWidth="48dp"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="48dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <!--<View style="@style/dividerHorizontalWithoutMargin" />-->
+
+
+</LinearLayout>

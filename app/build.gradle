@@ -1,0 +1,111 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.tencent.tinker.patch'
+
+def bakPath = file("${buildDir}/bakApk/")
+ext {
+    //for some reason, you may want to ignore tinkerBuild, such as instant run debug build?
+    tinkerEnabled = true
+
+    //for normal build
+    //old apk file to build patch apk
+    tinkerOldApkPath = "${bakPath}/app-debug-1018-17-32-47.apk"
+    //proguard mapping file to build patch apk
+    tinkerApplyMappingPath = "${bakPath}/app-debug-1018-17-32-47-mapping.txt"
+    //resource R.txt to build patch apk, must input if there is resource changed
+    tinkerApplyResourcePath = "${bakPath}/app-debug-1018-17-32-47-R.txt"
+
+    //only use for build all flavor, if not, just ignore this field
+    tinkerBuildFlavorDirectory = "${bakPath}/app-1018-17-32-47"
+}
+def gitSha() {
+    try {
+        String gitRev = '1.9.1'
+        if (gitRev == null) {
+            throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
+        }
+        return gitRev
+    } catch (Exception e) {
+        throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
+    }
+}
+
+def getTinkerIdValue() {
+    return hasProperty("TINKER_ID") ? '070a656fdee876d4' : gitSha()
+}
+def buildWithTinker() {
+    return hasProperty("TINKER_ENABLE") ? Boolean.parseBoolean(TINKER_ENABLE) : ext.tinkerEnabled
+}
+if (buildWithTinker()) {
+    apply plugin: 'com.tencent.tinker.patch'
+
+    tinkerPatch {
+        buildConfig {
+            tinkerId = getTinkerIdValue()
+            keepDexApply = false
+            isProtectedApp = false
+            supportHotplugComponent = false
+        }
+    }
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "27.0.3"
+    defaultConfig {
+        applicationId "com.ybmgtest"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        flavorDimensions "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file("../ybmgtest.jks")
+            keyAlias "zhuangbi"
+            storePassword "123456"
+            keyPassword "123456"
+        }
+        debug {
+            storeFile file("../ybmgtest.jks")
+            keyAlias "zhuangbi"
+            storePassword "123456"
+            keyPassword "123456"
+        }
+    }
+    //配置渠道
+//    productFlavors {
+//        yingyongbao {}
+//        wandoujia {}
+//        xiaomi {}
+//        baidu {}
+//        productFlavors.all {
+//            flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+//        }
+//    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.umeng.sdk:common:latest.integration'
+    implementation 'com.umeng.sdk:analytics:latest.integration'
+    implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
+    implementation 'com.yanzhenjie:permission:1.0.5'
+    annotationProcessor('com.tencent.tinker:tinker-android-anno:1.9.1')
+    //tinker的核心库
+    implementation('com.tencent.tinker:tinker-android-lib:1.9.1')
+}
